@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnonBack — Anonymous Feedback. Better Healthcare.</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7faff;
+            color: #102a43;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e8eef5;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #123c78;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #1261d6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            color: #52677d;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .hero {
+            min-height: calc(100vh - 78px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: #eaf3ff;
+            color: #1261d6;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.08;
+            letter-spacing: -2.5px;
+            color: #102f5b;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            color: #1261d6;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 0 auto;
+            font-size: 19px;
+            line-height: 1.7;
+            color: #61758a;
+        }
+
+        .hero-actions {
+            margin-top: 38px;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .primary-btn,
+        .submit-btn {
+            border: none;
+            background: #1261d6;
+            color: white;
+            padding: 15px 28px;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .primary-btn:hover,
+        .submit-btn:hover {
+            background: #0d4fae;
+            transform: translateY(-1px);
+        }
+
+        .secondary-btn {
+            border: 1px solid #d6e1ed;
+            background: white;
+            color: #294763;
+            padding: 15px 28px;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .trust-line {
+            margin-top: 45px;
+            font-size: 13px;
+            color: #8192a4;
+        }
+
+        .feedback-page {
+            display: none;
+            min-height: calc(100vh - 78px);
+            padding: 50px 70px 80px;
+        }
+
+        .feedback-container {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            border: none;
+            background: transparent;
+            color: #52677d;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-bottom: 30px;
+        }
+
+        .feedback-header {
+            margin-bottom: 30px;
+        }
+
+        .feedback-header h2 {
+            font-size: 42px;
+            color: #102f5b;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .feedback-header p {
+            color: #61758a;
+            font-size: 17px;
+        }
+
+        .feedback-card {
+            background: #ffffff;
+            border: 1px solid #e3ebf3;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 12px 35px rgba(35, 71, 110, 0.06);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 9px;
+            color: #294763;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid #d7e2ec;
+            border-radius: 9px;
+            background: #fbfdff;
+            color: #263f58;
+            font-family: inherit;
+            font-size: 15px;
+            padding: 14px 15px;
+            outline: none;
+        }
+
+        .form-group select {
+            height: 50px;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1261d6;
+            box-shadow: 0 0 0 3px rgba(18, 97, 214, 0.08);
+        }
+
+        .rating {
+            display: flex;
+            gap: 10px;
+        }
+
+        .rating button {
+            width: 48px;
+            height: 48px;
+            border: 1px solid #d7e2ec;
+            border-radius: 9px;
+            background: #ffffff;
+            color: #49647e;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .rating button:hover,
+        .rating button.active {
+            background: #1261d6;
+            border-color: #1261d6;
+            color: #ffffff;
+        }
+
+        .submit-btn {
+            width: 100%;
+        }
+
+        @media (max-width: 800px) {
+            .navbar {
+                padding: 0 25px;
+            }
+
+            .hero {
+                padding: 50px 25px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .feedback-page {
+                padding: 35px 25px 60px;
+            }
+        }
+
+        .confirmation-card {
+            text-align: center;
+        }
+
+        .confirmation-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 22px;
+            border-radius: 50%;
+            background: #eaf3ff;
+            color: #1769d1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+
+        #confirmationPage {
+            width: 100%;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px;
+        }
+
+        #confirmationPage .confirmation-card {
+            width: min(680px, 100%);
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+
+        #howItWorksPage {
+            width: 100%;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px;
+        }
+
+        #howItWorksPage .how-card {
+            width: min(760px, 100%);
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        .how-intro {
+            max-width: 620px;
+            margin: 0 auto 32px;
+        }
+
+        .how-steps {
+            display: grid;
+            gap: 16px;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .how-step {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 18px;
+            border: 1px solid #e6edf5;
+            border-radius: 14px;
+            background: #fbfdff;
+        }
+
+        .step-number {
+            flex: 0 0 34px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #1769d1;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .how-step h3 {
+            margin: 2px 0 6px;
+            font-size: 17px;
+        }
+
+        .how-step p {
+            margin: 0;
+            color: #607086;
+            line-height: 1.6;
+        }
+
+
+        /* Clean confirmation layout */
+        #confirmationPage .confirmation-card {
+            padding: 56px 64px;
+            text-align: center;
+        }
+
+        #confirmationPage .confirmation-icon {
+            margin-bottom: 28px;
+        }
+
+        #confirmationPage .badge {
+            display: inline-block;
+            margin-bottom: 22px;
+        }
+
+        #confirmationPage h2 {
+            margin: 0 0 20px;
+            line-height: 1.25;
+        }
+
+        #confirmationPage p {
+            max-width: 560px;
+            margin: 0 auto 34px;
+            line-height: 1.8;
+            color: #607086;
+        }
+
+        #confirmationPage .primary-btn {
+            margin-top: 4px;
+        }
+
+        /* Clean How It Works layout */
+        #howItWorksPage .how-card {
+            padding: 52px 56px;
+            text-align: center;
+        }
+
+        #howItWorksPage .badge {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        #howItWorksPage h2 {
+            margin: 0 0 18px;
+            line-height: 1.25;
+        }
+
+        #howItWorksPage .how-intro {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 36px;
+            line-height: 1.8;
+            color: #607086;
+        }
+
+        #howItWorksPage .how-steps {
+            width: 100%;
+            margin: 0 auto 34px;
+            display: grid;
+            gap: 18px;
+            text-align: left;
+        }
+
+        #howItWorksPage .how-step {
+            min-height: 72px;
+            box-sizing: border-box;
+            padding: 20px 22px;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        #howItWorksPage .step-number {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        #howItWorksPage .how-step h3 {
+            margin: 0 0 8px;
+            line-height: 1.35;
+        }
+
+        #howItWorksPage .how-step p {
+            margin: 0;
+            line-height: 1.65;
+            color: #607086;
+        }
+
+        #howItWorksPage .primary-btn {
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-mark">A</div>
+            <span>AnonBack</span>
+        </div>
+
+        <a href="#" class="nav-link">For Healthcare Providers</a>
+    </nav>
+
+    <main>
+
+        <section class="hero" id="home">
+            <div class="hero-content">
+
+                <div class="badge">
+                    Anonymous Healthcare Feedback
+                </div>
+
+                <h1>
+                    Anonymous Feedback.<br>
+                    <span>Better Healthcare.</span>
+                </h1>
+
+                <p>
+                    Share your healthcare experience without creating an account.
+                    Your feedback helps healthcare providers understand what needs
+                    to improve.
+                </p>
+
+                <div class="hero-actions">
+                    <button class="primary-btn" onclick="showFeedback()">
+                        Give Feedback
+                    </button>
+
+                    <button class="secondary-btn" onclick="learnMore()">
+                        How It Works
+                    </button>
+                </div>
+
+                <div class="trust-line">
+                    No account. No name. No unnecessary personal information.
+                </div>
+
+            </div>
+        </section>
+
+        <section class="feedback-page" id="feedbackPage">
+
+            <div class="feedback-container">
+
+                <button class="back-btn" onclick="showHome()">
+                    Back
+                </button>
+
+                <div class="feedback-header">
+                    <div class="badge">
+                        Anonymous Feedback
+                    </div>
+
+                    <h2>How was your experience?</h2>
+
+                    <p>
+                        Tell us what happened. Your identity is not required.
+                    </p>
+                </div>
+
+                <div class="feedback-card">
+
+                    <div class="form-group">
+                        <label for="hospital">Hospital</label>
+
+                        <select id="hospital">
+                            <option value="">Select hospital</option>
+                            <option>Central City Hospital</option>
+                            <option>Regional Medical Center</option>
+                            <option>University Hospital</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackText">What happened?</label>
+
+                        <textarea id="feedbackText"
+                            placeholder="Tell us about your healthcare experience..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+
+                        <select id="category">
+                            <option value="">Select category</option>
+                            <option>Waiting Time</option>
+                            <option>Staff Communication</option>
+                            <option>Registration</option>
+                            <option>Cleanliness</option>
+                            <option>Doctor Experience</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How would you rate your experience?</label>
+
+                        <div class="rating">
+                            <button type="button" onclick="setRating(1)">1</button>
+                            <button type="button" onclick="setRating(2)">2</button>
+                            <button type="button" onclick="setRating(3)">3</button>
+                            <button type="button" onclick="setRating(4)">4</button>
+                            <button type="button" onclick="setRating(5)">5</button>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" onclick="submitFeedback()">
+                        Submit Anonymously
+                    </button>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <section id="howItWorksPage" class="page" style="display: none;">
+        <div class="feedback-card how-card">
+            <span class="badge">How It Works</span>
+            <h2>Simple. Anonymous. Useful.</h2>
+            <p class="how-intro">
+                AnonBack makes it easy for patients to share their healthcare experience
+                without creating an account.
+            </p>
+
+            <div class="how-steps">
+                <div class="how-step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>Share Your Experience</h3>
+                        <p>Choose a hospital and tell us what happened.</p>
+                    </div>
+                </div>
+
+                <div class="how-step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Submit Anonymously</h3>
+                        <p>No account, name, phone number, or unnecessary personal information is required.</p>
+                    </div>
+                </div>
+
+                <div class="how-step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>AI Analyzes Feedback</h3>
+                        <p>Feedback can be analyzed to identify categories, key issues, and recurring trends.</p>
+                    </div>
+                </div>
+
+                <div class="how-step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h3>Healthcare Providers Learn</h3>
+                        <p>Aggregated insights can help providers understand what needs attention and improvement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="primary-btn" onclick="showHome()">Back to Home</button>
+        </div>
+    </section>
+
+    <section id="confirmationPage" class="page" style="display: none;">
+        <div class="feedback-card confirmation-card">
+            <div class="confirmation-icon" aria-hidden="true">
+                ✓
+            </div>
+            <span class="badge">Feedback Received</span>
+            <h2>Thank you for your feedback.</h2>
+            <p>
+                Your feedback has been submitted anonymously and can help healthcare
+                providers understand what needs to improve.
+            </p>
+            <button class="primary-btn" onclick="showHome()">Back to Home</button>
+        </div>
+    </section>
+
+    <script>
+        let selectedRating = 0;
+
+        function showFeedback() {
+            document.getElementById("home").style.display = "none";
+            document.getElementById("feedbackPage").style.display = "block";
+            window.scrollTo(0, 0);
+        }
+
+
+        function showHome() {
+            document.getElementById("feedbackPage").style.display = "none";
+            document.getElementById("confirmationPage").style.display = "none";
+            document.getElementById("howItWorksPage").style.display = "none";
+            document.getElementById("home").style.display = "flex";
+            window.scrollTo(0, 0);
+        }
+
+        function showConfirmation() {
+            document.getElementById("home").style.display = "none";
+            document.getElementById("feedbackPage").style.display = "none";
+            document.getElementById("confirmationPage").style.display = "flex";
+            window.scrollTo(0, 0);
+        }
+
+        function setRating(rating) {
+            selectedRating = rating;
+
+            const buttons = document.querySelectorAll(".rating button");
+
+            buttons.forEach(function (button, index) {
+                button.classList.toggle("active", index < rating);
+            });
+        }
+
+        function submitFeedback() {
+            const hospital = document.getElementById("hospital").value;
+            const feedback = document.getElementById("feedbackText").value.trim();
+            const category = document.getElementById("category").value;
+
+            if (!hospital || !feedback || !category || selectedRating === 0) {
+                alert("Please complete all fields before submitting.");
+                return;
+            }
+
+            document.getElementById("hospital").value = "";
+            document.getElementById("feedbackText").value = "";
+            document.getElementById("category").value = "";
+
+            setRating(0);
+            showConfirmation();
+        }
+        function learnMore() {
+            document.getElementById("home").style.display = "none";
+            document.getElementById("feedbackPage").style.display = "none";
+            document.getElementById("confirmationPage").style.display = "none";
+            document.getElementById("howItWorksPage").style.display = "flex";
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+</body>
+
+</html>
